@@ -48,13 +48,10 @@ if __name__ == "__main__":
 
     # Initialize three templates with different scales used for template matching
     ball_1 = cv2.imread('./ball2.png')
-    #ball_1 = cv2.resize(ball_1, (5,6))
     h_ball_1, w_ball_1 = ball_1.shape[0:2]
-    #ball_2 = cv2.resize(ball_1, (4,4))
     ball_2 = cv2.resize(ball_1, (12,13))
     h_ball_2, w_ball_2 = ball_2.shape[0:2]
     ball_3 = cv2.imread('./ball3.png')
-    #ball_3 = cv2.resize(ball_3, (4,4))
     h_ball_3, w_ball_3 = ball_3.shape[0:2]
 
     balls = [ball_1, ball_2, ball_3]
@@ -77,20 +74,19 @@ if __name__ == "__main__":
     
     # Variable used for storing ball position predictions
     preds = []
+    
+    # Variables used for inference time calculation
     n_frames = 0
     total_duration = 0
+
     # Visualize k random frames
     for frame_no in range(0, num_frames):
         n_frames += 1
         begin = time.time()
-        if frame_no % 100 == 0:
-            print(frame_no)
-        # if frame_no > 0 and frame_no % 1000 == 0:
-        #     preds_df = pd.DataFrame(preds, columns = ['frame_no', 'ball_x', 'ball_y'])
-        #     preds_df.to_csv('./out_csv.csv', index=False)
-
+                
         # Read frame
         ret, frame = cap.read()
+        
         # The game has started once the level of green rises above the empirically found threshold 
         mean_g = np.mean(frame[:,:,1])
         if mean_g > 80:
@@ -98,8 +94,6 @@ if __name__ == "__main__":
 
         # Frame is blurred in order to obtain more stable pixel values
         frame = cv2.GaussianBlur(frame,(9,9),0)
-        
-        # frame = cv2.resize(frame, (640, 360))
         
         # Detection algorithm 
         if game_started and not success:
@@ -111,7 +105,6 @@ if __name__ == "__main__":
                 res = cv2.matchTemplate(frame,ball,cv2.TM_SQDIFF_NORMED)
                 mask_detection_regions(res)
                 min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
-                print(min_val)
                 if min_val < th_detection: 
                     w_temp = w_balls[k]
                     h_temp = h_balls[k]
@@ -123,6 +116,7 @@ if __name__ == "__main__":
                 success = True
                 top_left = min_loc
                 bottom_right = (top_left[0] + w_temp, top_left[1] + h_temp)
+                # In case the prediction goes out of the borders of the frame, make it invalid
                 if top_left[0] < 0 or top_left[1] <0 or bottom_right[0] >= frame.shape[1] or bottom_right[1] >= frame.shape[0]:
                     success = False
                 if success:
@@ -140,12 +134,15 @@ if __name__ == "__main__":
             (success, box) = tracker.update(frame)
             # check to see if the tracking was a success
             if success:
-                # Draw rectangle around tracking prediction
+                # Extract tracking prediction
                 (x, y, w, h) = [int(v) for v in box]
+
+                # In case the prediction goes out of the borders of the frame, make it invalid
                 if x < 0 or y <0 or x+w >= frame.shape[1] or y + h >= frame.shape[0]:
                     success = False
                     false_cnt = 0
-                 
+
+                # Draw rectangle around tracking prediction                 
                 if success:
                     ball_pred = frame[y:y+h, x:x+w]
                     ball_pred = ball_pred.copy()
@@ -161,7 +158,6 @@ if __name__ == "__main__":
                         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
                     else:
                         min_val = 0.1
-                    print(min_val)
                     
                     # In case the tracking prediction is much different than template for
                     # a certain number of consecutive iterations, reinitialize algorithm 
@@ -190,8 +186,8 @@ if __name__ == "__main__":
         duration = time.time() - begin
         total_duration += duration
         
-        if frame_no % 100 == 0:
-            print('Avg duration: ' + str(total_duration/n_frames))
+        # if frame_no % 100 == 0:
+        #     print('Avg duration: ' + str(total_duration/n_frames))
 
     out.release()
 
