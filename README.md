@@ -17,5 +17,6 @@ The video showing the output on part1.mp4 video is available at the following li
 
 A part of video output:
 
-https://user-images.githubusercontent.com/41752671/129495039-318c1ded-d798-429b-9d03-36f47a66b8dd.mp4
+https://user-images.githubusercontent.com/41752671/129495149-c7f141d3-c167-4d75-b34d-7f0b15704fa0.mp4
+
 
