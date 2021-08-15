@@ -9,8 +9,6 @@ import matplotlib.pyplot as plt
 
 
 game_started = False
-visualize_predictions = True
-
 
 def mask_detection_regions(img):
     # Certain regions inside template matching result are masked out since the ball can never 
