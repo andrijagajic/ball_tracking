@@ -197,4 +197,4 @@ if __name__ == "__main__":
 
     # Saving predictions in a .csv file
     preds = pd.DataFrame(preds, columns = ['frame_no', 'ball_x', 'ball_y'])
-    preds.to_csv('./out_csv.csv', index=False)
+    preds.to_csv(out_csv, index=False)
