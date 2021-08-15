@@ -12,4 +12,6 @@ trade-off between prediction accuracy and inference time, I came up to the concl
 The program is run by simply running the build_tracker.py script, with no previous installation needed. OpenCV version used in project is 4.5.3. In order to test the script on
 different input, argument video should be set to the path pointing to the video. 
 
+The predictions on part1.mp4 video are presented in preds.csv file. The x and y coordinates of ball are set to the ones representing the center of the ball prediction during the inference.
+
 The video showing the output on part1.mp4 video is available at the following link:
