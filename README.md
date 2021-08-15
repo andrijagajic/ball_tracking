@@ -16,5 +16,6 @@ The predictions on part1.mp4 video are presented in predictions.csv file. The x 
 The video showing the output on part1.mp4 video is available at the following link: https://drive.google.com/file/d/1rMqLBdXeIXNxMb_a4TXaMs_InQXCl4Jb/view?usp=sharing
 
 A part of video output:
+
 https://user-images.githubusercontent.com/41752671/129495039-318c1ded-d798-429b-9d03-36f47a66b8dd.mp4
 
