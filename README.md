@@ -9,4 +9,7 @@ The algorithm performs at a ~11FPS frame rate. Even though this is sub-real-time
 60 FPS is more than the algorithm needs to work. The speed can be also further enhanced by downscaling both frame and templates before running an algorithm, but by testing the 
 trade-off between prediction accuracy and inference time, I came up to the conclusion that it is not worth rescaling the frame. 
 
+The program is run by simply running the build_tracker.py script, with no previous installation needed. OpenCV version used in project is 4.5.3. In order to test the script on
+different input, argument video should be set to the path pointing to the video. 
+
 The video showing the output on part1.mp4 video is available at the following link:
